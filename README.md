@@ -1,2 +1,4 @@
-# crm-android-app
-Android App for Odoo CRM
+crm-android-app
+==========================
+
+<b>Android Studio Project</b>

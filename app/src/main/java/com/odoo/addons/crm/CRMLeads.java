@@ -199,7 +199,7 @@ public class CRMLeads extends BaseFragment implements OCursorListAdapter.OnViewB
                     setHasSwipeRefreshView(mView, R.id.data_list_no_item, CRMLeads.this);
                     OControls.setImage(mView, R.id.icon, R.drawable.ic_action_leads
                     );
-                    OControls.setText(mView, R.id.title, "No Leads Found");
+                    OControls.setText(mView, R.id.title, "No se encuentran Leads");
                     OControls.setText(mView, R.id.subTitle, "");
                 }
             }, 500);
@@ -359,10 +359,10 @@ public class CRMLeads extends BaseFragment implements OCursorListAdapter.OnViewB
                         if (!contact.equals("false")) {
                             IntentUtils.requestCall(getActivity(), contact);
                         } else {
-                            Toast.makeText(getActivity(), "No contact found !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "No se ha encontrado ningún contacto !", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(getActivity(), "No contact found !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "No se ha encontrado ningún contacto !", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     IntentUtils.requestCall(getActivity(), contact);
@@ -374,10 +374,10 @@ public class CRMLeads extends BaseFragment implements OCursorListAdapter.OnViewB
                     if (!address.equals("false") && !TextUtils.isEmpty(address)) {
                         IntentUtils.redirectToMap(getActivity(), address);
                     } else {
-                        Toast.makeText(getActivity(), "No location found !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "No se ha encontrado ninguna ubicación !", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "No partner found !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Ningun socio encontrado !", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.menu_lead_lost:

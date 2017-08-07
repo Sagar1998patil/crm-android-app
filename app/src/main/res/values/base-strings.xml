@@ -4,7 +4,7 @@
     <string name="label_login">Iniciar Sesion</string>
     <string name="label_accept_login">Ingresar</string>
     <string name="label_your_self_hosted_url">URL de Servidor</string>
-    <string name="label_username_or_email">Usuario o Email</string>
+    <string name="label_username_or_email">Usuario</string>
     <string name="label_password">Contraseña</string>
     <string name="label_forgot_password">Olvido su contraseña?</string>
     <string name="label_add_self_hosted_url">URL de Servidor</string>

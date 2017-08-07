@@ -758,7 +758,7 @@ public class CalendarDashboard extends BaseFragment implements View.OnClickListe
     @Override
     public List<ODrawerItem> drawerMenus(Context context) {
         List<ODrawerItem> menu = new ArrayList<>();
-        menu.add(new ODrawerItem(KEY).setTitle("Calendar")
+        menu.add(new ODrawerItem(KEY).setTitle("Calendario")
                 .setInstance(new CalendarDashboard())
                 .setIcon(R.drawable.ic_action_dashboard));
         return menu;

@@ -5,7 +5,7 @@ android {
     buildToolsVersion '25'
     defaultConfig {
         useLibrary 'org.apache.http.legacy'
-        manifestPlaceholders = [applicationName: "CRM"]
+        manifestPlaceholders = [applicationName: "Madketing Mobile"]
         applicationId "com.odoo.crm"
         minSdkVersion 15
         targetSdkVersion 25

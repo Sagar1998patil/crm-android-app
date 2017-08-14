@@ -39,30 +39,27 @@ public class IntroSliderItems implements SliderPagerAdapter.SliderBuilderListene
 
     public List<SliderItem> getItems() {
         List<SliderItem> items = new ArrayList<>();
-        items.add(new SliderItem("Daily Planner", "Odoo CRM keeps you organized, focused and more productive",
+        items.add(new SliderItem("Planifica tu Dia", "Madketing Mobile te mantiene organizado, concentrado y mas productivo",
                 R.drawable.slide_1, this)
-                .putExtra("sub_title", "Manage everything in one place"));
-        items.add(new SliderItem("Live caller ID", "Get information about customer and recent opportunity before you pickup the phone.",
+                .putExtra("sub_title", "Organiza todo en un solo lugar"));
+        items.add(new SliderItem("Informacion de llamadas", "Obtiene informacion del Cliente y de la reciente Oportunidad, antes de levantar el telefono.",
                 R.drawable.slide_3, this)
-                .putExtra("sub_title", "See who's calling"));
-        items.add(new SliderItem("Reminders", "Use reminders to make sure no phone-calls, meetings or opportunities forgotten",
+                .putExtra("sub_title", "Mira quien llama"));
+        items.add(new SliderItem("Recordatorios", "Utiliza recordatorios para asegurarte que nada se te olvide",
                 R.drawable.slide_4, this)
-                .putExtra("sub_title", "Reminder with quick actions"));
-        items.add(new SliderItem("Easy actions", "Odoo CRM offers simple, quick and easy actions at your fingertips",
+                .putExtra("sub_title", "Recordatorio con acciones rapidas"));
+        items.add(new SliderItem("Funcionalidades Simples", "Madketing Mobile ofrece funcionalidades simples y al alcance de tu mano",
                 R.drawable.slide_5, this)
-                .putExtra("sub_title", "Getting things done quickly"));
-        items.add(new SliderItem("Manage quotations", "Create/Manage quotations and manage order lines easily",
+                .putExtra("sub_title", "Variedad de opciones utiles"));
+        items.add(new SliderItem("Administra operaciones", "Crea/Edita items y operaciones facilmente",
                 R.drawable.slide_6, this)
-                .putExtra("sub_title", "Easily manage order lines"));
-        items.add(new SliderItem("", "All the data automatically synchronized with server when you re-connect to internet",
+                .putExtra("sub_title", "Administra tus operaciones facilmente!"));
+        items.add(new SliderItem("", "Todos los datos se sincronizan con el servidor cuando te conectas a internet",
                 R.drawable.no_network, this)
-                .putExtra("sub_title", "Works offline"));
-        items.add(new SliderItem("", "Works with Odoo Saas cloud",
-                R.drawable.saas_support, this)
-                .putExtra("sub_title", "Odoo Saas Support"));
-        items.add(new SliderItem("Let's Start", "",
+                .putExtra("sub_title", "Funciona sin conexion!"));
+        items.add(new SliderItem("Comencemos", "",
                 R.drawable.odoo_shaded, this)
-                .putExtra("sub_title", "Start exploring Odoo CRM"));
+                .putExtra("sub_title", "Comenzar a explorar Madketing Mobile"));
         return items;
     }
 
@@ -77,7 +74,7 @@ public class IntroSliderItems implements SliderPagerAdapter.SliderBuilderListene
         if (item.getImagePath() == R.drawable.odoo_shaded) {
             OControls.setGone(view, R.id.description);
             OControls.setVisible(view, R.id.btnSliderFinish);
-            OControls.setText(view, R.id.btnSliderFinish, "GOT IT, LET'S GO!");
+            OControls.setText(view, R.id.btnSliderFinish, "ENTENDIDO, VAMOS!");
             view.findViewById(R.id.btnSliderFinish).setOnClickListener(this);
         } else {
             OControls.setVisible(view, R.id.description);

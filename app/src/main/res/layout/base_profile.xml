@@ -117,7 +117,7 @@
                 <odoo.controls.OField
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:controlLabel="ODOO VERSION"
+                    app:controlLabel="MADKETING VERSION"
                     app:fieldLabelColor="@color/theme_primary"
                     app:fieldName="version"
                     app:fieldTextSize="@dimen/text_size_xmedium"

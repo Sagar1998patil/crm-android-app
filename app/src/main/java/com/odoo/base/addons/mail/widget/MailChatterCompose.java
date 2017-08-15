@@ -55,8 +55,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.odoo.core.rpc.helper.OArguments;
-import com.odoo.core.rpc.helper.ORecordValues;
+import odoo.helper.OArguments;
+import odoo.helper.ORecordValues;
 
 
 public class MailChatterCompose extends OdooCompatActivity implements View.OnClickListener {

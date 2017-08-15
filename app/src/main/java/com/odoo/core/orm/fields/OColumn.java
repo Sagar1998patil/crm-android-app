@@ -19,10 +19,6 @@
  */
 package com.odoo.core.orm.fields;
 
-import com.odoo.core.orm.OModel;
-import com.odoo.core.orm.annotation.Odoo;
-import com.odoo.core.orm.fields.utils.DomainFilterParser;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +30,6 @@ public class OColumn {
     public static final String TAG = OColumn.class.getSimpleName();
     public static final String ROW_ID = "_id";
     private LinkedHashMap<String, String> mSelectionMap = new LinkedHashMap<>();
-    private Odoo.Domain domainFilter;
 
     public static enum RelationType {
         OneToMany,
@@ -186,6 +181,9 @@ public class OColumn {
     }
 
     public LinkedHashMap<String, ColumnDomain> getDomains() {
+        if (hasDomainFilterColumn()) {
+            return new LinkedHashMap<>();
+        }
         return columnDomains;
     }
 
@@ -196,10 +194,6 @@ public class OColumn {
     public OColumn setHasDomainFilterColumn(Boolean domainFilterColumn) {
         mHasDomainFilterColumn = domainFilterColumn;
         return this;
-    }
-
-    public void setDomainFilter(Odoo.Domain domainFilter) {
-        this.domainFilter = domainFilter;
     }
 
     public boolean hasOnChange() {
@@ -226,11 +220,8 @@ public class OColumn {
         columnDomains.clear();
     }
 
-    public DomainFilterParser getDomainFilterParser(OModel model) {
-        if (domainFilter != null) {
-            return new DomainFilterParser(model, this, domainFilter.value());
-        }
-        return null;
+    public LinkedHashMap<String, ColumnDomain> getFilterDomains() {
+        return columnDomains;
     }
 
     /**
@@ -380,7 +371,7 @@ public class OColumn {
                 '}';
     }
 
-    public static class ColumnDomain {
+    public class ColumnDomain {
 
         private String column = null;
         private String operator = null;

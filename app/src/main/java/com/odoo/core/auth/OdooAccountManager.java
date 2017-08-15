@@ -1,44 +1,35 @@
 /**
  * Odoo, Open Source Management Solution
  * Copyright (C) 2012-today Odoo SA (<http:www.odoo.com>)
- * <p>
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version
- * <p>
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details
- * <p>
+ * <p/>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http:www.gnu.org/licenses/>
- * <p>
+ * <p/>
  * Created on 17/12/14 6:21 PM
  */
 package com.odoo.core.auth;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.BoolRes;
-import android.support.design.widget.BottomSheetDialog;
 import android.util.Log;
 
 import com.odoo.App;
-import com.odoo.core.orm.OModel;
-import com.odoo.core.orm.OSQLite;
+import com.odoo.core.orm.OModelRegistry;
 import com.odoo.core.support.OUser;
 import com.odoo.core.utils.OPreferenceManager;
 import com.odoo.core.utils.sys.OCacheUtils;
 
-import java.io.IOException;
-import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +52,7 @@ public class OdooAccountManager {
             OUser user = new OUser();
             user.fillFromAccount(aManager, account);
             user.setAccount(account);
+            user.setContext(context);
             users.add(user);
         }
         return users;
@@ -125,33 +117,10 @@ public class OdooAccountManager {
         OUser user = getDetails(context, username);
         if (user != null) {
             AccountManager accountManager = AccountManager.get(context);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                if (accountManager.removeAccountExplicitly(user.getAccount())) {
-                    dropDatabase(user);
-                }
-                return true;
-            } else {
-                try {
-                    AccountManagerFuture<Boolean> result = accountManager.
-                            removeAccount(user.getAccount(), null, null);
-                    if (result.getResult()) {
-                        dropDatabase(user);
-                    }
-                    return true;
-                } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-                    e.printStackTrace();
-                }
-            }
+            accountManager.removeAccount(user.getAccount(), null, null);
+            return true;
         }
         return false;
-    }
-
-    public static void dropDatabase(OUser user) {
-        OSQLite sqLite = App.getSQLite(user.getAndroidName());
-        if (sqLite != null) {
-            sqLite.dropDatabase();
-            App.setSQLite(user.getAndroidName(), null);
-        }
     }
 
     public static OUser updateUserData(Context context, OUser user, OUser newData) {
@@ -238,6 +207,9 @@ public class OdooAccountManager {
         // Setting odoo instance to null
         App app = (App) context.getApplicationContext();
         app.setOdoo(null, null);
+        // Clearing models registry
+        OModelRegistry registry = new OModelRegistry();
+        registry.clearAll();
         OUser activeUser = getActiveUser(context);
         // Logging out user if any
         if (activeUser != null) {

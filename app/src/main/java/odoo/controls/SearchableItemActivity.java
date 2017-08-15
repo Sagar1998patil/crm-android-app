@@ -19,12 +19,12 @@
  */
 package odoo.controls;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,14 +40,16 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.ServerDataHelper;
 import com.odoo.core.orm.fields.OColumn;
-import com.odoo.core.rpc.helper.ODomain;
-import com.odoo.core.rpc.helper.OdooFields;
+import com.odoo.core.support.OdooFields;
 import com.odoo.core.support.list.OListAdapter;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OResource;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import odoo.helper.ODomain;
+
 
 public class SearchableItemActivity extends ActionBarActivity implements
         AdapterView.OnItemClickListener, TextWatcher, View.OnClickListener,
@@ -65,8 +67,8 @@ public class SearchableItemActivity extends ActionBarActivity implements
     private OModel mRelModel = null;
     private Integer mRowId = null;
     private LiveSearch mLiveDataLoader = null;
-    private Bundle formData;
-    private ODomain liveDomain = new ODomain();
+    private OColumn mCol = null;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,14 +109,10 @@ public class SearchableItemActivity extends ActionBarActivity implements
                 }
             } else {
                 if (extra.containsKey("column_name")) {
-                    OColumn mCol = mModel.getColumn(extra.getString("column_name"));
+                    mCol = mModel.getColumn(extra.getString("column_name"));
                     mRelModel = mModel.createInstance(mCol.getType());
-
-                    if (mCol.hasDomainFilterColumn()) {
-                        formData = extra.getBundle("form_data");
-                        liveDomain = mCol.getDomainFilterParser(mModel).getRPCDomain(formData);
-                    }
-                    objects.addAll(OSelectionField.getRecordItems(mRelModel, mCol, formData));
+                    objects.addAll(OSelectionField.getRecordItems(mRelModel,
+                            mCol));
                 }
             }
 
@@ -165,15 +163,12 @@ public class SearchableItemActivity extends ActionBarActivity implements
 
     @Override
     public void onRecordCreated(ODataRow row) {
-        Bundle extra = getIntent().getExtras();
         Intent intent = new Intent("searchable_value_select");
-        if (extra.containsKey("column_name"))
-            intent.putExtra("column_name", extra.getString("column_name"));
         intent.putExtra("selected_position", row.getInt(OColumn.ROW_ID));
         if (mRowId != null) {
             intent.putExtra("record_id", true);
         }
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        sendBroadcast(intent);
         finish();
     }
 
@@ -238,12 +233,18 @@ public class SearchableItemActivity extends ActionBarActivity implements
                 ServerDataHelper helper = mRelModel.getServerDataHelper();
                 ODomain domain = new ODomain();
                 domain.add(mRelModel.getDefaultNameColumn(), "ilike", params[0]);
-                domain.append(liveDomain);
-                return helper.searchRecords(new OdooFields(mRelModel.getColumns()), domain, 10);
+                if (mCol != null) {
+                    for (String key : mCol.getDomains().keySet()) {
+                        OColumn.ColumnDomain dom = mCol.getDomains().get(key);
+                        domain.add(dom.getColumn(), dom.getOperator(),
+                                dom.getValue());
+                    }
+                }
+                OdooFields fields = new OdooFields(mRelModel.getColumns());
+                return helper.searchRecords(fields, domain, 10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 

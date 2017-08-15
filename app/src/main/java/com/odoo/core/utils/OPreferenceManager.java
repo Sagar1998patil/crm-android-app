@@ -21,7 +21,6 @@ package com.odoo.core.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -68,15 +67,11 @@ public class OPreferenceManager {
     }
 
     public int getInt(String key, int default_value) {
-        if (mPref.getAll().get(key) instanceof String) {
-            try {
-                return Integer.parseInt(mPref.getString(key, default_value + ""));
-            } catch (NumberFormatException e) {
-                Log.d(TAG, e.getMessage());
-                return default_value;
-            }
+        try {
+            return Integer.parseInt(mPref.getString(key, default_value + ""));
+        } catch (Exception e) {
+            return mPref.getInt(key, default_value);
         }
-        return mPref.getInt(key, default_value);
     }
 
     public void setBoolean(String key, Boolean value) {

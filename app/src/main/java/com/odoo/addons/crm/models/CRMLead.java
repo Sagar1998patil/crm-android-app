@@ -45,10 +45,6 @@ import com.odoo.core.orm.fields.types.OFloat;
 import com.odoo.core.orm.fields.types.OInteger;
 import com.odoo.core.orm.fields.types.OText;
 import com.odoo.core.orm.fields.types.OVarchar;
-import com.odoo.core.rpc.helper.OArguments;
-import com.odoo.core.rpc.helper.ODomain;
-import com.odoo.core.rpc.helper.ORecordValues;
-import com.odoo.core.rpc.helper.utils.gson.OdooResult;
 import com.odoo.core.support.OUser;
 import com.odoo.core.utils.JSONUtils;
 import com.odoo.core.utils.ODateUtils;
@@ -60,6 +56,11 @@ import org.json.JSONArray;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import odoo.helper.OArguments;
+import odoo.helper.ODomain;
+import odoo.helper.ORecordValues;
+import odoo.helper.utils.gson.OdooResult;
 
 public class CRMLead extends OModel {
     public static final String TAG = CRMLead.class.getSimpleName();
@@ -288,7 +289,7 @@ public class CRMLead extends OModel {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    com.odoo.core.rpc.Odoo odoo = getServerDataHelper().getOdoo();
+                    odoo.Odoo odoo = getServerDataHelper().getOdoo();
                     // Creating wizard record
                     ORecordValues values = new ORecordValues();
                     values.put("name", (other_lead_ids.size() > 0) ? "merge" : "convert");
@@ -460,7 +461,7 @@ public class CRMLead extends OModel {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    com.odoo.core.rpc.Odoo odoo = getServerDataHelper().getOdoo();
+                    odoo.Odoo odoo = getServerDataHelper().getOdoo();
                     // Creating wizard record
                     ORecordValues values = new ORecordValues();
                     ResPartner resPartner = new ResPartner(mContext, getUser());

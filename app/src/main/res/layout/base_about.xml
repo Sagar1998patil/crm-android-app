@@ -80,17 +80,6 @@
                 android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/line1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@string/font_light"
-                    android:gravity="left"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="@string/about_Company_line1"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <TextView
                     android:id="@+id/line2"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -99,18 +88,6 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/about_Company_line2"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColorLink="#414141" />
-
-                <TextView
-                    android:id="@+id/line3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@string/font_light"
-                    android:gravity="left"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="@string/about_Company_line3"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColorLink="#414141" />
 

@@ -123,8 +123,8 @@ public class CRMLeads extends BaseFragment implements OCursorListAdapter.OnViewB
         if (!hintCaseUtils.isDone()) {
             hintCaseUtils.addHint(
                     new HintCaseItem()
-                            .setTitle("New")
-                            .setContent("Create new Leads on single tap.")
+                            .setTitle("Nuevo")
+                            .setContent("Crear nuevos leads en un solo toque.")
                             .setViewId(R.id.fabButton)
                             .withCircleShape());
         }
@@ -218,7 +218,7 @@ public class CRMLeads extends BaseFragment implements OCursorListAdapter.OnViewB
                     setHasSwipeRefreshView(mView, R.id.customer_no_items, CRMLeads.this);
                     OControls.setImage(mView, R.id.icon, R.drawable.ic_action_leads
                     );
-                    OControls.setText(mView, R.id.title, "No Leads Found");
+                    OControls.setText(mView, R.id.title, "No se encontraron Leads");
                     OControls.setText(mView, R.id.subTitle, "");
                 }
             }, 500);

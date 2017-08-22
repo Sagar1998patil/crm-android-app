@@ -609,7 +609,7 @@ public class OSelectionField extends LinearLayout implements IOControlData,
                 args, rel_model.getDefaultNameColumn());
         ODataRow row = new ODataRow();
         row.put(OColumn.ROW_ID, -1);
-        row.put(rel_model.getDefaultNameColumn(), "No " + column.getLabel() + " selected");
+        row.put(rel_model.getDefaultNameColumn(), "No hay " + column.getLabel() + " seleccionada");
         items.add(row);
         items.addAll(rows);
         return items;

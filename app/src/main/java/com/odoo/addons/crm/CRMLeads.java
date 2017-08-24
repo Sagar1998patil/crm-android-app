@@ -218,7 +218,7 @@ public class CRMLeads extends BaseFragment implements OCursorListAdapter.OnViewB
                     setHasSwipeRefreshView(mView, R.id.customer_no_items, CRMLeads.this);
                     OControls.setImage(mView, R.id.icon, R.drawable.ic_action_leads
                     );
-                    OControls.setText(mView, R.id.title, "No se encontraron Leads");
+                    OControls.setText(mView, R.id.title, "Leads no encontrados");
                     OControls.setText(mView, R.id.subTitle, "");
                 }
             }, 500);

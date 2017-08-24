@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CRM</string>
+    <string name="app_name">Madketing CRM</string>
     <string name="label_today">Today</string>
     <!-- Sync Labels// -->
     <string name="sync_label_customers">Clientes</string>
@@ -12,9 +12,9 @@
     <string name="no_notification">No Notificación</string>
     <string name="at_the_time_of_event">En el momento del evento</string>
     <string name="on_the_day_at">On the day at %s</string>
-    <string name="on_your_working_day_start_time">Next working day time</string>
-    <string name="day_before_at">The day before at %s</string>
-    <string name="minutes_before">%s minutes before</string>
+    <string name="on_your_working_day_start_time">Próximo día de trabajo</string>
+    <string name="day_before_at">El día anterior a %s</string>
+    <string name="minutes_before">%s minutos antes</string>
     <string name="custom">Custom...</string>
     <string name="error_end_date_small_than_start_date">End date cannot be set before start date.</string>
     <string name="label_all">Todos</string>
@@ -56,7 +56,7 @@
     <string name="label_no_customer_found">No se encontraron clientes</string>
     <string name="label_no_location_found">No se encontró localización !</string>
     <string name="label_no_contact_found">Contacto no encontrado !</string>
-    <string name="label_no_opportunity_found">Oportinidad no encontrada !</string>
+    <string name="label_no_opportunity_found">Oportinidades no encontradas </string>
     <string name="label_no_email_found">Email no encontrado !</string>
     <string name="label_no_logged_calls_found">Llamadas Registradas no encontradas</string>
     <string name="label_no_scheduled_calls_found">Llamadas Programadas no encontradas</string>
@@ -78,7 +78,7 @@
     <string name="add_internal_note">Agregar nota interna</string>
     <string name="internal_note_hint">Agregar nota interna que no va a ser enviada a los seguidores</string>
     <string name="label_log_note">Nota de registro</string>
-    <string name="label_send_message"><u>Enviar mensage</u></string>
+    <string name="label_send_message"><u>Enviar mensaje</u></string>
     <string name="label_log_an_internal_note"><u>Registrar nota interna</u></string>
     <string-array name="array_conversation_actions">
         <item>Convertir en Oportunidad</item>

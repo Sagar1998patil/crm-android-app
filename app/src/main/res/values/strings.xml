@@ -16,7 +16,7 @@
     <string name="day_before_at">El día anterior a %s</string>
     <string name="minutes_before">%s minutos antes</string>
     <string name="custom">Custom...</string>
-    <string name="error_end_date_small_than_start_date">End date cannot be set before start date.</string>
+    <string name="error_end_date_small_than_start_date">Fecha de finalizacion no puede ser anterior a la de comienzo.</string>
     <string name="label_all">Todos</string>
     <string name="label_leads">Leads</string>
     <string name="label_lead">Lead</string>
@@ -97,9 +97,9 @@
     <!-- Working day start time -->
     <string name="default_day_start_time">09:00:00</string>
     <string name="label_version_build">Build</string>
-    <string name="toast_permission_download_storage">Storage permission required to create downloaded file on your sdcard.</string>
-    <string name="toast_permission_download_storage_help">Storage permission required to store downloaded files on sdcard of your phone. Please grant permission for use this feature</string>
-    <string name="alert_permission_help">Some of permission required to start application. Please grant permission from application settings.</string>
+    <string name="toast_permission_download_storage">Permisos de almacenamiento en la SDCard del telefono son requeridos</string>
+    <string name="toast_permission_download_storage_help">Se requiere conceder permisos de almacenamiendo en la SDCard del telefono</string>
+    <string name="alert_permission_help">Se requiere conceder de permisos a la aplicacion.</string>
     <string name="confirm_are_you_sure_want_to_delete">Está seguro que desea borrar ?</string>
     <string name="toast_record_deleted">Registro Borrado</string>
     <string name="almost_there">Ingresando...</string>

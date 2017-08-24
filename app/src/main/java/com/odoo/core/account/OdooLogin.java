@@ -47,7 +47,7 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
         IOdooConnectionListener, IOdooLoginCallback {
 
     public static final String TAG = OdooLogin.class.getSimpleName();
-    private EditText edtUsername, edtPassword, edtSelfHosted;
+    private EditText edtUsername, edtPassword;
     private Boolean mSelfHostedURL = false;
     private Boolean mConnectedToServer = false;
     private Boolean mAutoLogin = false;
@@ -58,6 +58,7 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
     private TextView mLoginProcessStatus = null;
     private App mApp;
     private Odoo mOdoo;
+    private String odooServerUrl = "http://138.68.44.226:8069";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,8 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
         /*findViewById(R.id.forgot_password).setOnClickListener(this);
         findViewById(R.id.create_account).setOnClickListener(this);
         findViewById(R.id.txvAddSelfHosted).setOnClickListener(this);*/
-        edtSelfHosted = (EditText) findViewById(R.id.edtSelfHostedURL);
-        edtSelfHosted.setEnabled(false);
+        //edtSelfHosted = (EditText) findViewById(R.id.edtSelfHostedURL);
+        //edtSelfHosted.setEnabled(false);
         edtUsername = (EditText) findViewById(R.id.edtUserName);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
 
@@ -86,7 +87,7 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
             edtSelfHosted.setText("http://192.168.199.101:8069");
             edtUsername.setText("admin");
             edtPassword.setText("admin");*/
-            edtSelfHosted.setText("http://198.199.80.95:8070");
+            //edtSelfHosted.setText("http://138.68.44.226:8069");
             edtUsername.setText("");
             edtPassword.setText("");
         }
@@ -132,9 +133,9 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
         //TextView txvAddSelfHosted = (TextView) findViewById(R.id.txvAddSelfHosted);
         //if (!mSelfHostedURL) {
         mSelfHostedURL = true;
-        findViewById(R.id.layoutSelfHosted).setVisibility(View.VISIBLE);
-        edtSelfHosted.setOnFocusChangeListener(this);
-        edtSelfHosted.requestFocus();
+        //findViewById(R.id.layoutSelfHosted).setVisibility(View.VISIBLE);
+        //edtSelfHosted.setOnFocusChangeListener(this);
+        //edtSelfHosted.requestFocus();
         //txvAddSelfHosted.setText(R.string.label_login_with_odoo);
         //} else {
             /*findViewById(R.id.layoutBorderDB).setVisibility(View.GONE);
@@ -182,20 +183,22 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!TextUtils.isEmpty(edtSelfHosted.getText())
-                        && validateURL(edtSelfHosted.getText().toString())) {
-                    edtSelfHosted.setError(null);
+                if (!TextUtils.isEmpty(odooServerUrl)
+                        && validateURL(odooServerUrl)) {
+                    //edtSelfHosted.setError(null);
                     if (mAutoLogin) {
                         findViewById(R.id.controls).setVisibility(View.GONE);
                         findViewById(R.id.login_progress).setVisibility(View.VISIBLE);
                         mLoginProcessStatus.setText(OResource.string(OdooLogin.this,
                                 R.string.status_connecting_to_server));
                     }
-                    findViewById(R.id.imgValidURL).setVisibility(View.GONE);
-                    findViewById(R.id.serverURLCheckProgress).setVisibility(View.VISIBLE);
+                    //findViewById(R.id.imgValidURL).setVisibility(View.GONE);
+                    //findViewById(R.id.smallText).setVisibility(View.VISIBLE);
+                    TextView smallText = (TextView) findViewById(R.id.termsCondition);
+                    smallText.setText("CARGANDO...");
                     findViewById(R.id.layoutBorderDB).setVisibility(View.GONE);
                     findViewById(R.id.layoutDatabase).setVisibility(View.GONE);
-                    String test_url = createServerURL(edtSelfHosted.getText().toString());
+                    String test_url = createServerURL(odooServerUrl);
                     Log.v(TAG, "Testing URL :" + test_url);
                     try {
                         Odoo.createInstance(OdooLogin.this, test_url).setOnConnect(OdooLogin.this);
@@ -223,16 +226,16 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
     // User Login
     private void loginUser() {
         Log.v("", "LoginUser()");
-        String serverURL = createServerURL((mSelfHostedURL) ? edtSelfHosted.getText().toString() :
+        String serverURL = createServerURL((mSelfHostedURL) ? odooServerUrl :
                 OConstants.URL_ODOO);
         String databaseName;
         if (mSelfHostedURL) {
-            edtSelfHosted.setError(null);
-            if (TextUtils.isEmpty(edtSelfHosted.getText())) {
+            //edtSelfHosted.setError(null);
+            /*if (TextUtils.isEmpty(edtSelfHosted.getText())) {
                 edtSelfHosted.setError(OResource.string(this, R.string.error_provide_server_url));
                 edtSelfHosted.requestFocus();
                 return;
-            }
+            }*/
             if (databaseSpinner != null && databases.size() > 1 && databaseSpinner.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, OResource.string(this, R.string.label_select_database), Toast.LENGTH_LONG).show();
                 findViewById(R.id.controls).setVisibility(View.VISIBLE);
@@ -275,6 +278,8 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
     }
 
     private void showDatabases() {
+        TextView smallText = (TextView) findViewById(R.id.termsCondition);
+        smallText.setText("");
         if (databases.size() > 1) {
             findViewById(R.id.layoutBorderDB).setVisibility(View.VISIBLE);
             findViewById(R.id.layoutDatabase).setVisibility(View.VISIBLE);
@@ -294,8 +299,8 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
         Log.v("Odoo", "Connected to server.");
         mOdoo = odoo;
         databases.clear();
-        findViewById(R.id.serverURLCheckProgress).setVisibility(View.GONE);
-        edtSelfHosted.setError(null);
+       // findViewById(R.id.serverURLCheckProgress).setVisibility(View.GONE);
+        //edtSelfHosted.setError(null);
         mLoginProcessStatus.setText(OResource.string(OdooLogin.this, R.string.status_connected_to_server));
         mOdoo.getDatabaseList(new IDatabaseListListener() {
             @Override
@@ -303,7 +308,7 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
                 databases.addAll(strings);
                 showDatabases();
                 mConnectedToServer = true;
-                findViewById(R.id.imgValidURL).setVisibility(View.VISIBLE);
+               // findViewById(R.id.imgValidURL).setVisibility(View.VISIBLE);
                 if (mAutoLogin) {
                     loginUser();
                 }
@@ -316,8 +321,8 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
         // Some error occurred
         if (error.getResponseCode() == Odoo.ErrorCode.InvalidURL.get() ||
                 error.getResponseCode() == -1) {
-            edtSelfHosted.setError(OResource.string(OdooLogin.this, R.string.error_invalid_odoo_url));
-            edtSelfHosted.requestFocus();
+            //edtSelfHosted.setError(OResource.string(OdooLogin.this, R.string.error_invalid_odoo_url));
+            //edtSelfHosted.requestFocus();
         }
         canceledInstanceSelect();
     }
@@ -326,7 +331,7 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
     public void canceledInstanceSelect() {
         findViewById(R.id.controls).setVisibility(View.VISIBLE);
         findViewById(R.id.login_progress).setVisibility(View.GONE);
-        findViewById(R.id.serverURLCheckProgress).setVisibility(View.VISIBLE);
+       // findViewById(R.id.serverURLCheckProgress).setVisibility(View.VISIBLE);
     }
 
     @Override

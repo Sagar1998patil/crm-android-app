@@ -146,13 +146,13 @@
     <string name="supported_versions_names">Madketing 7.0+</string>
     <string name="label_access_odoo_mobile">Conectarse a Madketing Mobile</string>
     <!-- About Company Fragment Strings -->
-    <string name="about_Company_line1"></string>
-    <string name="about_Company_line2">Madketing es marca registrada de <a href="https://www.madketing.co/">madketing.co.</a></string>
-    <string name="about_Company_line3"><a href="http://www.gnu.org/licenses/agpl.html/"></a></string>
-    <string name="about_Company_line4">Para más información visite <a href="https://www.madketing.co/">madketing.co</a>.</string>
+    <string name="about_Company_line1">Hacemos la publicidad cada vez mas eficiente mediante el uso de datos y tecnología.</string>
+    <string name="about_Company_line2">Buscamos ser la empresa más eficaz de habla hispana, con un modelo de negocio sano, continuo, replicable y escalable</string>
+    <string name="about_Company_line3">Mas informacion en nuestra <a href="https://www.madketing.co/">Pagina Web</a></string>
+    <string name="about_Company_line4"></string>
     <string name="app_version_name">Versión</string>
     <string name="notification_default_ring_tone">content://settings/system/notification_sound</string>
-    <string name="disclaimer_content"></string>
+    <string name="disclaimer_content">Bienvenido a Madketing Mobile</string>
 </resources>
 
     

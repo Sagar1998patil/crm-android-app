@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:background="@color/theme_primary"
         android:minHeight="?attr/actionBarSize"
-        app:titleMarginStart="@dimen/default_16dp"
-        android:paddingTop="@dimen/statusBarHeight"
         android:paddingRight="@dimen/default_8dp"
+        android:paddingTop="@dimen/statusBarHeight"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ToolBarTheme" />
+        app:theme="@style/ToolBarTheme"
+        app:titleMarginStart="@dimen/default_16dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,6 +79,18 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+
+                <TextView
+                    android:id="@+id/line1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/font_light"
+                    android:gravity="left"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/about_Company_line1"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
                 <TextView
                     android:id="@+id/line2"
                     android:layout_width="fill_parent"
@@ -92,8 +104,20 @@
                     android:textColorLink="#414141" />
 
                 <TextView
-                    android:id="@+id/line4"
+                    android:id="@+id/line3"
                     android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/font_light"
+                    android:gravity="left"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/about_Company_line3"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColorLink="#414141" />
+
+                <TextView
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@string/font_light"
                     android:gravity="left"

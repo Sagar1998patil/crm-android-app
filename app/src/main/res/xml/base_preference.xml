@@ -46,8 +46,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="hands_up_notification"
-            android:summary="Allow application to show quick notification on screen"
-            android:summaryOff="Habilitar para permitir que la aplicación muestre una notificación rápida en la pantalla"
+            android:summary="Permite a la aplicación mostrar rápidas notificaciones en pantalla"
+            android:summaryOff="Permite que la aplicación muestre una notificación rápida en la pantalla"
             android:title="Habilitar notificación de manos arriba" />
     </PreferenceCategory>
     <PreferenceCategory

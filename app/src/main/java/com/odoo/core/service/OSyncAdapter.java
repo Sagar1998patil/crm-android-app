@@ -332,6 +332,9 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (OdooVersionException e) {
             e.printStackTrace();
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return odoo;
     }
 

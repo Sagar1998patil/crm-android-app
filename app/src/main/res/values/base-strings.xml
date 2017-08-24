@@ -11,7 +11,7 @@
     <string name="label_add_self_hosted_url"></string>
     <string name="label_login_with_odoo"></string>
     <string name="label_create_account"></string>
-    <string name="label_select_database">Seleccione su Base de Datos</string>
+    <string name="label_select_database">Seleccionar Cuenta</string>
     <string name="title_ssl_warning">SSL Warning</string>
     <string name="untrusted_ssl_warning">The site\'s security certificate is not trusted !</string>
     <string name="error_invalid_odoo_url">URL Inválida</string>

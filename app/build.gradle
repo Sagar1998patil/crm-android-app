@@ -4,8 +4,8 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
     defaultConfig {
-        manifestPlaceholders = [applicationName: "CRM"]
-        applicationId "com.odoo.crm"
+        manifestPlaceholders = [applicationName: "Madketing Mobile"]
+        applicationId "com.madketing.mobile"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 7

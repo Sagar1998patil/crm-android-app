@@ -58,7 +58,7 @@ public class OdooLogin extends AppCompatActivity implements View.OnClickListener
     private TextView mLoginProcessStatus = null;
     private App mApp;
     private Odoo mOdoo;
-    private String odooServerUrl = "http://198.199.80.95:8070";
+    private String odooServerUrl = "http://crm.madketing.com.ar:8071";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

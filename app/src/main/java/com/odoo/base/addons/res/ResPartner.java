@@ -20,11 +20,9 @@
 package com.odoo.base.addons.res;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.odoo.addons.sale.models.AccountPaymentTerm;
-import com.odoo.BuildConfig;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
@@ -40,29 +38,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResPartner extends OModel {
-    public static final String AUTHORITY = BuildConfig.APPLICATION_ID +
-            ".provider.content.sync.res_partner";
-
-    OColumn name = new OColumn("Name", OVarchar.class).setSize(100).setRequired();
-    OColumn is_company = new OColumn("Is Company", OBoolean.class).setDefaultValue(false);
+    public static final String AUTHORITY = "com.odoo.crm.provider.content.sync.res_partner";
+    OColumn name = new OColumn("Nombre", OVarchar.class).setSize(100).setRequired();
+    OColumn is_company = new OColumn("Pertenece a Compañía?", OBoolean.class).setDefaultValue(false);
     OColumn image_small = new OColumn("Avatar", OBlob.class).setDefaultValue(false);
-    OColumn street = new OColumn("Street", OVarchar.class).setSize(100);
-    OColumn street2 = new OColumn("Street2", OVarchar.class).setSize(100);
-    OColumn city = new OColumn("City", OVarchar.class);
-    OColumn zip = new OColumn("Zip", OVarchar.class);
-    OColumn website = new OColumn("Website", OVarchar.class).setSize(100);
-    OColumn phone = new OColumn("Phone", OVarchar.class).setSize(15);
-    OColumn mobile = new OColumn("Mobile", OVarchar.class).setSize(15);
+    OColumn street = new OColumn("Calle", OVarchar.class).setSize(100);
+    OColumn street2 = new OColumn("Calle2", OVarchar.class).setSize(100);
+    OColumn city = new OColumn("Ciudad", OVarchar.class);
+    OColumn zip = new OColumn("Código Postal", OVarchar.class);
+    OColumn website = new OColumn("Sitio Web", OVarchar.class).setSize(100);
+    OColumn phone = new OColumn("Teléfono", OVarchar.class).setSize(15);
+    OColumn mobile = new OColumn("Celular", OVarchar.class).setSize(15);
     OColumn email = new OColumn("Email", OVarchar.class);
-    OColumn company_id = new OColumn("Company", ResCompany.class, OColumn.RelationType.ManyToOne);
-    OColumn parent_id = new OColumn("Related Company", ResPartner.class, OColumn.RelationType.ManyToOne)
+    OColumn company_id = new OColumn("Compañía", ResCompany.class, OColumn.RelationType.ManyToOne);
+    OColumn parent_id = new OColumn("Compañía Relacionada", ResPartner.class, OColumn.RelationType.ManyToOne)
             .addDomain("is_company", "=", true);
-
-    @Odoo.Domain("[['country_id', '=', @country_id]]")
-    OColumn state_id = new OColumn("State", ResCountryState.class, OColumn.RelationType.ManyToOne);
-    OColumn country_id = new OColumn("Country", ResCountry.class, OColumn.RelationType.ManyToOne);
-    OColumn customer = new OColumn("Customer", OBoolean.class).setDefaultValue("true");
-    OColumn comment = new OColumn("Internal Note", OText.class);
+    OColumn country_id = new OColumn("País", ResCountry.class, OColumn.RelationType.ManyToOne);
+    OColumn customer = new OColumn("Cliente", OBoolean.class).setDefaultValue("true");
+    OColumn comment = new OColumn("Nota Interna", OText.class);
     @Odoo.Functional(store = true, depends = {"parent_id"}, method = "storeCompanyName")
     OColumn company_name = new OColumn("Company Name", OVarchar.class).setSize(100)
             .setLocalColumn();
@@ -72,7 +65,7 @@ public class ResPartner extends OModel {
     OColumn partner_shipping_id = new OColumn("partner_shipping_id", OVarchar.class).setLocalColumn();
     OColumn pricelist_id = new OColumn("pricelist_id", OVarchar.class).setLocalColumn();
     OColumn fiscal_position = new OColumn("fiscal_position", OVarchar.class).setLocalColumn();
-    OColumn payment_term = new OColumn("Payment Term", AccountPaymentTerm.class, OColumn.RelationType.ManyToOne).setLocalColumn();
+    OColumn payment_term = new OColumn("Plazo de Pago", AccountPaymentTerm.class, OColumn.RelationType.ManyToOne).setLocalColumn();
 
     public ResPartner(Context context, OUser user) {
         super(context, "res.partner", user);
@@ -122,10 +115,5 @@ public class ResPartner extends OModel {
 
     public Uri liveSearchURI() {
         return uri().buildUpon().appendPath("live_searchable_customer").build();
-    }
-
-    @Override
-    public void onModelUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Execute upgrade script
     }
 }

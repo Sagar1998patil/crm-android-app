@@ -45,10 +45,6 @@ import com.odoo.core.orm.fields.types.OFloat;
 import com.odoo.core.orm.fields.types.OInteger;
 import com.odoo.core.orm.fields.types.OText;
 import com.odoo.core.orm.fields.types.OVarchar;
-import com.odoo.core.rpc.helper.OArguments;
-import com.odoo.core.rpc.helper.ODomain;
-import com.odoo.core.rpc.helper.ORecordValues;
-import com.odoo.core.rpc.helper.utils.gson.OdooResult;
 import com.odoo.core.support.OUser;
 import com.odoo.core.utils.JSONUtils;
 import com.odoo.core.utils.ODateUtils;
@@ -61,6 +57,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import odoo.helper.OArguments;
+import odoo.helper.ODomain;
+import odoo.helper.ORecordValues;
+import odoo.helper.utils.gson.OdooResult;
+
 public class CRMLead extends OModel {
     public static final String TAG = CRMLead.class.getSimpleName();
     public static final String AUTHORITY = "com.odoo.crm.provider.content.sync.crm_lead";
@@ -69,19 +70,19 @@ public class CRMLead extends OModel {
     private Context mContext;
 
     @Odoo.onChange(method = "partnerIdOnChange")
-    OColumn partner_id = new OColumn("Customer", ResPartner.class,
+    OColumn partner_id = new OColumn("Cliente", ResPartner.class,
             OColumn.RelationType.ManyToOne).addDomain("customer", "=", "true");
-    OColumn name = new OColumn("Name", OVarchar.class).setSize(64)
+    OColumn name = new OColumn("Nombre", OVarchar.class).setSize(64)
             .setRequired();
     OColumn email_from = new OColumn("Email", OVarchar.class).setSize(128);
-    OColumn street = new OColumn("Street", OText.class);
-    OColumn street2 = new OColumn("Street2", OText.class);
-    OColumn city = new OColumn("City", OVarchar.class).setSize(100);
-    OColumn zip = new OColumn("Zip", OVarchar.class).setSize(20);
-    OColumn mobile = new OColumn("Mobile", OVarchar.class).setSize(20);
-    OColumn phone = new OColumn("Phone", OVarchar.class).setSize(20);
-    OColumn create_date = new OColumn("Creation Date", ODateTime.class);
-    OColumn description = new OColumn("Internal Notes", OText.class);
+    OColumn street = new OColumn("Calle", OText.class);
+    OColumn street2 = new OColumn("Calle2", OText.class);
+    OColumn city = new OColumn("Ciudad", OVarchar.class).setSize(100);
+    OColumn zip = new OColumn("Código Postal", OVarchar.class).setSize(20);
+    OColumn mobile = new OColumn("Celular", OVarchar.class).setSize(20);
+    OColumn phone = new OColumn("Teléfono", OVarchar.class).setSize(20);
+    OColumn create_date = new OColumn("Día de Creación", ODateTime.class);
+    OColumn description = new OColumn("Nota Interna", OText.class);
     @Odoo.api.v7
     @Odoo.api.v8
     OColumn categ_ids = new OColumn("Tags", CRMCaseCateg.class,
@@ -89,8 +90,8 @@ public class CRMLead extends OModel {
     @Odoo.api.v9
     OColumn tag_ids = new OColumn("Tags", CRMCaseCateg.class,
             OColumn.RelationType.ManyToMany);
-    OColumn contact_name = new OColumn("Contact Name", OVarchar.class);
-    OColumn partner_name = new OColumn("Company Name", OVarchar.class);
+    OColumn contact_name = new OColumn("Nombre de Contacto", OVarchar.class);
+    OColumn partner_name = new OColumn("Nombre de Compañía", OVarchar.class);
     OColumn opt_out = new OColumn("Opt-Out", OBoolean.class);
     OColumn type = new OColumn("Type", OVarchar.class).setDefaultValue("lead");
     OColumn priority = new OColumn("Priority", OVarchar.class).setSize(10);
@@ -112,14 +113,14 @@ public class CRMLead extends OModel {
      * Only used for type opportunity
      */
 
-    OColumn probability = new OColumn("Success Rate (%)", OFloat.class).setSize(20).setDefaultValue("0.0");
-    OColumn planned_revenue = new OColumn("Expected Revenue", OFloat.class).setSize(20).setDefaultValue("0.0");
+    OColumn probability = new OColumn("Tasa de Éxito (%)", OFloat.class).setSize(20).setDefaultValue("0.0");
+    OColumn planned_revenue = new OColumn("Ingresos Esperados", OFloat.class).setSize(20).setDefaultValue("0.0");
     OColumn ref = new OColumn("Reference", OVarchar.class);
     OColumn ref2 = new OColumn("Reference 2", OVarchar.class);
-    OColumn date_deadline = new OColumn("Expected Closing", ODate.class);
-    OColumn date_action = new OColumn("Next Action", ODate.class);
-    OColumn title_action = new OColumn("Next Action", OVarchar.class);
-    OColumn planned_cost = new OColumn("Planned Cost", OFloat.class).setSize(20);
+    OColumn date_deadline = new OColumn("Cierre Experado", ODate.class);
+    OColumn date_action = new OColumn("Próxima Acción", ODate.class);
+    OColumn title_action = new OColumn("Próxima Acción", OVarchar.class);
+    OColumn planned_cost = new OColumn("Costo Planeado", OFloat.class).setSize(20);
 
     /**
      * Extra functional fields
@@ -288,7 +289,7 @@ public class CRMLead extends OModel {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    com.odoo.core.rpc.Odoo odoo = getServerDataHelper().getOdoo();
+                    odoo.Odoo odoo = getServerDataHelper().getOdoo();
                     // Creating wizard record
                     ORecordValues values = new ORecordValues();
                     values.put("name", (other_lead_ids.size() > 0) ? "merge" : "convert");
@@ -460,7 +461,7 @@ public class CRMLead extends OModel {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    com.odoo.core.rpc.Odoo odoo = getServerDataHelper().getOdoo();
+                    odoo.Odoo odoo = getServerDataHelper().getOdoo();
                     // Creating wizard record
                     ORecordValues values = new ORecordValues();
                     ResPartner resPartner = new ResPartner(mContext, getUser());

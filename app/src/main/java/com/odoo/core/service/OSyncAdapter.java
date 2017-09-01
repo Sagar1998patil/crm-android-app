@@ -37,24 +37,24 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
-import com.odoo.core.rpc.Odoo;
-import com.odoo.core.rpc.handler.OdooVersionException;
-import com.odoo.core.rpc.helper.ODomain;
-import com.odoo.core.rpc.helper.ORecordValues;
-import com.odoo.core.rpc.helper.OdooFields;
-import com.odoo.core.rpc.helper.utils.gson.OdooRecord;
-import com.odoo.core.rpc.helper.utils.gson.OdooResult;
 import com.odoo.core.support.OUser;
 import com.odoo.core.utils.ODateUtils;
 import com.odoo.core.utils.OPreferenceManager;
 import com.odoo.core.utils.OResource;
 import com.odoo.core.utils.OdooRecordUtils;
 import com.odoo.core.utils.logger.OLog;
-import com.odoo.datas.OConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import odoo.Odoo;
+import odoo.handler.OdooVersionException;
+import odoo.helper.ODomain;
+import odoo.helper.ORecordValues;
+import odoo.helper.OdooFields;
+import odoo.helper.utils.gson.OdooRecord;
+import odoo.helper.utils.gson.OdooResult;
 
 public class OSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String TAG = OSyncAdapter.class.getSimpleName();
@@ -68,6 +68,8 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
     private Class<? extends OModel> mModelClass;
     private Integer mSyncDataLimit = 0;
     private Boolean checkForWriteCreateDate = true;
+    private Boolean checkForCreateDate = true;
+    private Boolean modelLogOnly = false;
     private HashMap<String, ODomain> mDomain = new HashMap<>();
     private HashMap<String, ISyncFinishListener> mSyncFinishListeners = new HashMap<>();
 
@@ -101,8 +103,19 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
         return this;
     }
 
+    public OSyncAdapter checkForCreateDate(Boolean check) {
+        checkForCreateDate = check;
+        return this;
+    }
+
+
     public OSyncAdapter syncDataLimit(Integer dataLimit) {
         mSyncDataLimit = dataLimit;
+        return this;
+    }
+
+    public OSyncAdapter setModelLogOnly(boolean modelLogOnly) {
+        this.modelLogOnly = modelLogOnly;
         return this;
     }
 
@@ -118,10 +131,14 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
             mOdoo = createOdooInstance(mContext, mUser);
             if (mOdoo != null) {
                 dataUtils = new OSyncDataUtils(mContext, mOdoo);
-                Log.i(TAG, "User        : " + mModel.getUser().getAndroidName());
-                Log.i(TAG, "Model       : " + mModel.getModelName());
-                Log.i(TAG, "Database    : " + mModel.getDatabaseName());
-                Log.i(TAG, "Odoo Version: " + mUser.getOdooVersion().getServerSerie());
+                if (!modelLogOnly) {
+                    Log.i(TAG, "User        : " + mModel.getUser().getAndroidName());
+                    Log.i(TAG, "Model       : " + mModel.getModelName());
+                    Log.i(TAG, "Database    : " + mModel.getDatabaseName());
+                    Log.i(TAG, "Odoo Version: " + mUser.getOdooVersion().getServerSerie());
+                } else {
+                    Log.v(TAG, "Model       : " + mModel.getModelName());
+                }
                 // Calling service callback
                 if (mService != null)
                     mService.performDataSync(this, extras, mUser);
@@ -140,7 +157,8 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private void syncData(OModel model, OUser user, ODomain domain_filter,
                           SyncResult result, Boolean checkForDataLimit, Boolean createRelationRecords) {
-        Log.v(TAG, "Sync for (" + model.getModelName() + ") Started at " + ODateUtils.getDate());
+        if (!modelLogOnly)
+            Log.v(TAG, "Sync for (" + model.getModelName() + ") Started at " + ODateUtils.getDate());
         model.onSyncStarted();
         try {
             ODomain domain = new ODomain();
@@ -152,7 +170,7 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
             if (checkForWriteCreateDate) {
                 List<Integer> serverIds = model.getServerIds();
                 // Model Create date domain filters
-                if (model.checkForCreateDate() && checkForDataLimit) {
+                if (checkForCreateDate && model.checkForCreateDate() && checkForDataLimit) {
                     if (serverIds.size() > 0) {
                         if (model.checkForWriteDate()
                                 && !model.isEmptyTable()) {
@@ -176,15 +194,13 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                 }
             }
+
             // Getting data
-            OdooResult response = mOdoo
-                    .withRetryPolicy(OConstants.RPC_REQUEST_TIME_OUT, OConstants.RPC_REQUEST_RETRIES)
-                    .searchRead(model.getModelName(), getFields(model)
-                            , domain, 0, mSyncDataLimit, "create_date DESC");
+            OdooResult response = mOdoo.searchRead(model.getModelName(), getFields(model)
+                    , domain, 0, mSyncDataLimit, "create_date DESC");
             if (response == null) {
                 // FIXME: Check in library. May be timeout issue with slow network.
                 Log.w(TAG, "Response null from server.");
-                model.onSyncTimedOut();
                 return;
             }
             if (response.containsKey("error")) {
@@ -197,7 +213,8 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
                 return;
             }
 
-            Log.v(TAG, "Processing " + response.getRecords().size() + " records");
+            if (!modelLogOnly)
+                Log.v(TAG, "Processing " + response.getRecords().size() + " records");
             dataUtils.handleResult(model, user, result, response, createRelationRecords);
             // Updating records on server if local are latest updated.
             // if model allowed update record to server
@@ -223,7 +240,8 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
                 removeNonExistRecordFromLocal(model);
             }
 
-            Log.v(TAG, "Sync for (" + model.getModelName() + ") finished at " + ODateUtils.getDate());
+            if (!modelLogOnly)
+                Log.v(TAG, "Sync for (" + model.getModelName() + ") finished at " + ODateUtils.getDate());
             if (createRelationRecords) {
                 IrModel irModel = new IrModel(mContext, user);
                 irModel.setLastSyncDateTimeToNow(model);
@@ -231,7 +249,6 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
             model.onSyncFinished();
         } catch (Exception e) {
             e.printStackTrace();
-            model.onSyncFailed();
         }
         // Performing next sync if any in service
         if (mSyncFinishListeners.containsKey(model.getModelName())) {
@@ -263,7 +280,7 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
             if (!record.getUniqueIds().isEmpty()) {
                 ODomain domain = new ODomain();
                 domain.add("id", "in", record.getUniqueIds());
-                syncData(rel_model, user, domain, result, false, false);
+                syncData(rel_model, user, domain, result, true, false);
             }
             // Updating manyToOne record with their relation record row_id
             switch (record.getRelationType()) {
@@ -294,10 +311,11 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
         Odoo odoo = app.getOdoo(user);
         try {
             if (odoo == null) {
-                odoo = Odoo.createQuickInstance(context, user.getHost());
-                OUser mUser = odoo
-                        .withRetryPolicy(OConstants.RPC_REQUEST_TIME_OUT, OConstants.RPC_REQUEST_RETRIES)
-                        .authenticate(user.getUsername(), user.getPassword(), user.getDatabase());
+                odoo = Odoo.createQuickInstance(context, (user.isOAuthLogin())
+                        ? user.getInstanceURL() : user.getHost());
+                odoo.helper.OUser mUser =
+                        odoo.authenticate(user.getUsername(), user.getPassword(), (user.isOAuthLogin()) ?
+                                user.getInstanceDatabase() : user.getDatabase());
                 app.setOdoo(odoo, user);
                 if (mUser != null) {
                     ResCompany company = new ResCompany(context, user);
@@ -312,6 +330,9 @@ public class OSyncAdapter extends AbstractThreadedSyncAdapter {
                 }
             }
         } catch (OdooVersionException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return odoo;

@@ -7,15 +7,15 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:paddingTop="@dimen/statusBarHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/theme_primary"
         android:minHeight="?attr/actionBarSize"
-        app:titleMarginStart="@dimen/default_16dp"
         android:paddingRight="@dimen/default_16dp"
+        android:paddingTop="@dimen/statusBarHeight"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ToolBarTheme" />
+        app:theme="@style/ToolBarTheme"
+        app:titleMarginStart="@dimen/default_16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             app:fieldName="event_date_start"
-                            app:defaultFieldValue="now()"
+                            app:defaultValue="now()"
                             app:parsePattern="EEEE, MMM dd, yyyy"
                             app:fieldType="Date"
                             app:fieldTextSize="@dimen/text_size_xmedium"
@@ -92,7 +92,7 @@
                             android:id="@+id/event_start_time"
                             android:layout_width="wrap_content"
                             app:fieldName="event_time_start"
-                            app:defaultFieldValue="now()"
+                            app:defaultValue="now()"
                             app:parsePattern="hh:mm a"
                             app:fieldTextSize="@dimen/text_size_xmedium"
                             app:fieldTextColor="@color/body_text_2"
@@ -115,7 +115,7 @@
                             android:layout_weight="1"
                             app:fieldName="event_date_end"
                             app:fieldTextSize="@dimen/text_size_xmedium"
-                            app:defaultFieldValue="now()"
+                            app:defaultValue="now()"
                             app:fieldTextColor="@color/body_text_2"
                             app:parsePattern="EEEE, MMM dd, yyyy"
                             app:fieldType="Date"
@@ -128,7 +128,7 @@
                             android:id="@+id/event_end_time"
                             android:layout_width="wrap_content"
                             app:fieldName="event_time_end"
-                            app:defaultFieldValue="now()"
+                            app:defaultValue="now()"
                             app:parsePattern="hh:mm a"
                             app:fieldTextSize="@dimen/text_size_xmedium"
                             app:fieldTextColor="@color/body_text_2"
@@ -257,7 +257,7 @@
                         android:fontFamily="@string/font_normal"
                         android:gravity="center_vertical"
                         android:paddingLeft="16dp"
-                        android:text="Default Color"
+                        android:text="Color por defecto"
                         android:textSize="@dimen/text_size_xmedium" />
                 </LinearLayout>
 

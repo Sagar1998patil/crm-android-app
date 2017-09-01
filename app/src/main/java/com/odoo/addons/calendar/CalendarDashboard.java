@@ -68,6 +68,8 @@ import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.IOnSearchViewChangeListener;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
 import com.odoo.core.support.drawer.ODrawerItem;
+import com.odoo.core.support.hintcase.HintCaseItem;
+import com.odoo.core.support.hintcase.HintCaseUtils;
 import com.odoo.core.support.list.IOnItemClickListener;
 import com.odoo.core.support.list.OCursorListAdapter;
 import com.odoo.core.support.list.OListAdapter;
@@ -115,6 +117,8 @@ public class CalendarDashboard extends BaseFragment implements View.OnClickListe
     private OListAdapter navSpinnerAdapter;
     private FilterType mFilterType = FilterType.All;
 
+    private HintCaseUtils hintCaseUtils;
+
     private enum SheetType {
         Event, PhoneCall, Opportunity
     }
@@ -153,6 +157,27 @@ public class CalendarDashboard extends BaseFragment implements View.OnClickListe
         crmLead = new CRMLead(getActivity(), null);
         odooCalendar.setOdooCalendarDateSelectListener(this);
 
+        // Adding hints for fragment
+        hintCaseUtils = HintCaseUtils.init(getActivity(), TAG);
+        if (!hintCaseUtils.isDone()) {
+            hintCaseUtils.addHint(
+                    new HintCaseItem()
+                            .setTitle("Nuevo!")
+                            .setContent("Crear nuevo evento en un solo toque.")
+                            .setViewId(R.id.week_days)
+            );
+            hintCaseUtils.addHint(
+                    new HintCaseItem()
+                            .setTitle("Menú de Hoy")
+                            .setContent("Calendario de redireccionamiento rápido a hoy")
+                            .setViewId(R.id.menu_dashboard_goto_today));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hintCaseUtils.show();
     }
 
     private void initActionSpinner() {

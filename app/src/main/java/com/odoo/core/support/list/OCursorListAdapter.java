@@ -187,8 +187,8 @@ public class OCursorListAdapter extends CursorAdapter implements
         if (hasIndexers && mIndexerColumn != null) {
             Cursor cr = getCursor();
             if (cr.getCount() > 0) {
-                int pos = cr.getCount() - 1;
-                if (cr.moveToLast()) {
+                int pos = 0;
+                if (cr.moveToFirst()) {
                     List<String> keys = new ArrayList<>();
                     do {
                         int index = cr.getColumnIndex(mIndexerColumn);
@@ -197,8 +197,8 @@ public class OCursorListAdapter extends CursorAdapter implements
                             azIndexers.put(colValue.substring(0, 1), pos);
                             keys.add(colValue.substring(0, 1));
                         }
-                        pos--;
-                    } while (cr.moveToPrevious());
+                        pos++;
+                    } while (cr.moveToNext());
                     Collections.sort(keys);
                     sections = keys.toArray(new String[keys.size()]);
                 }

@@ -23,8 +23,8 @@ public class OConstants {
     public static final String URL_ODOO = "https://www.odoo.com";
     public static final String URL_ODOO_RESET_PASSWORD = URL_ODOO + "/web/reset_password";
     public static final String URL_ODOO_SIGN_UP = URL_ODOO + "/web/signup";
-    public static final String URL_ODOO_MOBILE_GIT_HUB = "https://github.com/Odoo-mobile";
-    public static final String URL_ODOO_APPS_ON_PLAY_STORE = "https://play.google.com/store/apps/developer?id=Odoo+SA";
+    public static final String URL_ODOO_MOBILE_GIT_HUB = "";
+    public static final String URL_ODOO_APPS_ON_PLAY_STORE = "https://play.google.com/store/apps";
 
     public static final String ODOO_COMPANY_NAME = "Odoo";
 
@@ -34,9 +34,6 @@ public class OConstants {
     /**
      * Database version. Required to change in increment order
      * when you change your database model in case of released apk.
-     *
-     * When dealing with DATABASE_VERSION, you need to override onModelUpgrade() method
-     * in each of the model class for applying upgrade script for that model.
      */
     public static final int DATABASE_VERSION = 2;
 }

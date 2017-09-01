@@ -29,7 +29,7 @@ public @interface Odoo {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    @interface SyncColumnName {
+    public @interface SyncColumnName {
         String value() default "";
     }
 
@@ -38,7 +38,7 @@ public @interface Odoo {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
-    @interface Functional {
+    public @interface Functional {
 
         /**
          * Method.
@@ -65,11 +65,11 @@ public @interface Odoo {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    @interface api {
+    public @interface api {
 
         @Retention(RetentionPolicy.RUNTIME)
         @Target({ElementType.FIELD, ElementType.METHOD})
-        @interface v7 {
+        public @interface v7 {
             String[] versions() default {};
 
             String[] exclude() default {};
@@ -77,7 +77,7 @@ public @interface Odoo {
 
         @Retention(RetentionPolicy.RUNTIME)
         @Target({ElementType.FIELD, ElementType.METHOD})
-        @interface v8 {
+        public @interface v8 {
             String[] versions() default {};
 
             String[] exclude() default {};
@@ -85,7 +85,7 @@ public @interface Odoo {
 
         @Retention(RetentionPolicy.RUNTIME)
         @Target({ElementType.FIELD, ElementType.METHOD})
-        @interface v9 {
+        public @interface v9 {
             String[] versions() default {};
 
             String[] exclude() default {};
@@ -93,15 +93,7 @@ public @interface Odoo {
 
         @Retention(RetentionPolicy.RUNTIME)
         @Target({ElementType.FIELD, ElementType.METHOD})
-        @interface v10 {
-            String[] versions() default {};
-
-            String[] exclude() default {};
-        }
-
-        @Retention(RetentionPolicy.RUNTIME)
-        @Target({ElementType.FIELD, ElementType.METHOD})
-        @interface v11alpha {
+        public @interface v10alpha {
             String[] versions() default {};
 
             String[] exclude() default {};
@@ -110,22 +102,22 @@ public @interface Odoo {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD, ElementType.METHOD})
-    @interface onChange {
+    public @interface onChange {
         String method();
 
         /**
          * Background process If true, method block executed in background
          * thread. default false
          *
-         * @return boolean flag
+         * @return
          */
         boolean bg_process() default false;
     }
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.FIELD, ElementType.METHOD})
-    @interface Domain {
-        String value() default "";
+    public @interface hasDomainFilter {
+        boolean checkDomainRuntime() default true;
     }
 
 }

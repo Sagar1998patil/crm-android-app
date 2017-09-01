@@ -51,6 +51,8 @@ import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.IOnSearchViewChangeListener;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
 import com.odoo.core.support.drawer.ODrawerItem;
+import com.odoo.core.support.hintcase.HintCaseItem;
+import com.odoo.core.support.hintcase.HintCaseUtils;
 import com.odoo.core.support.list.IOnItemClickListener;
 import com.odoo.core.support.list.OCursorListAdapter;
 import com.odoo.core.utils.BitmapUtils;
@@ -77,6 +79,7 @@ public class Customers extends BaseFragment implements ISyncStatusObserverListen
     private ListView mPartnersList = null;
     private OCursorListAdapter mAdapter = null;
     private boolean syncRequested = false;
+    private HintCaseUtils hintCaseUtils;
 
     public enum Type {
         Leads, Opportunities
@@ -105,6 +108,21 @@ public class Customers extends BaseFragment implements ISyncStatusObserverListen
         mAdapter.handleItemClickListener(mPartnersList, this);
         setHasFloatingButton(view, R.id.fabButton, mPartnersList, this);
         getLoaderManager().initLoader(0, null, this);
+        hintCaseUtils = HintCaseUtils.init(getActivity(), KEY);
+        if (!hintCaseUtils.isDone()) {
+            hintCaseUtils.addHint(
+                    new HintCaseItem()
+                            .setTitle("Nuevo")
+                            .setContent("Crear nuevo cliente en un solo toque.")
+                            .setViewId(R.id.fabButton)
+                            .withCircleShape());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hintCaseUtils.show();
     }
 
     @Override
@@ -140,13 +158,13 @@ public class Customers extends BaseFragment implements ISyncStatusObserverListen
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.changeCursor(data);
-        if (data != null && data.getCount() > 0) {
+        if (data.getCount() > 0) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     OControls.setGone(mView, R.id.loadingProgress);
                     OControls.setVisible(mView, R.id.swipe_container);
-                    OControls.setGone(mView, R.id.data_list_no_item);
+                    OControls.setGone(mView, R.id.customer_no_items);
                     setHasSwipeRefreshView(mView, R.id.swipe_container, Customers.this);
                 }
             }, 500);
@@ -156,8 +174,8 @@ public class Customers extends BaseFragment implements ISyncStatusObserverListen
                 public void run() {
                     OControls.setGone(mView, R.id.loadingProgress);
                     OControls.setGone(mView, R.id.swipe_container);
-                    OControls.setVisible(mView, R.id.data_list_no_item);
-                    setHasSwipeRefreshView(mView, R.id.data_list_no_item, Customers.this);
+                    OControls.setVisible(mView, R.id.customer_no_items);
+                    setHasSwipeRefreshView(mView, R.id.customer_no_items, Customers.this);
                     OControls.setImage(mView, R.id.icon, R.drawable.ic_action_customers);
                     OControls.setText(mView, R.id.title, _s(R.string.label_no_customer_found));
                     OControls.setText(mView, R.id.subTitle, "");

@@ -1,5 +1,7 @@
 package com.odoo.core.utils;
 
+import android.text.TextUtils;
+
 import com.odoo.core.orm.ODataRow;
 
 import org.json.JSONArray;

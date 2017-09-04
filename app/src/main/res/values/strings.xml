@@ -114,5 +114,5 @@
     <string name="task_status_base_data">Obteniendo Información</string>
     <string name="task_status_user_rights_groups">Comprobando Permisos de Usuario</string>
     <string name="task_status_module_configuration">Comprobando configuración del módulo</string>
-    <string name="task_status_feature_data">Finalización de los datos de la aplicación</string>
+    <string name="task_status_feature_data">Finalizando la carga de datos de la aplicación</string>
 </resources>

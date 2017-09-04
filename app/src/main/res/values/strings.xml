@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Madketing CRM</string>
+    <string name="app_name">Madketing Mobile</string>
     <string name="label_today">Today</string>
     <!-- Sync Labels// -->
     <string name="sync_label_customers">Clientes</string>
@@ -114,5 +114,5 @@
     <string name="task_status_base_data">Obteniendo Información</string>
     <string name="task_status_user_rights_groups">Comprobando Permisos de Usuario</string>
     <string name="task_status_module_configuration">Comprobando configuración del módulo</string>
-    <string name="task_status_feature_data">Finalización de los datos de la aplicación</string>
+    <string name="task_status_feature_data">Finalizando la carga de datos de la aplicación</string>
 </resources>
